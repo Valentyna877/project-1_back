@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-export const BabyStatesSchema = new Schema(
+const BabyStatesSchema = new Schema(
   {
     analogy: { type: String, default: null },
 
