@@ -1,9 +1,13 @@
 import { Task } from '../models/task.js';
 import createHttpError from 'http-errors';
 
+export const createTask = async (req, res) => {
+  const task = await Task.create({ ...req.body, userId: req.user._id });
+  res.status(201).json(task);
+};
+
 export const getAllTasks = async (req, res) => {
-  const { _id: loggedUser } = req.user;
-  const result = await Task.find({ loggedUser });
+  const result = await Task.find({ userId: req.user._id });
   res.status(200).json(result);
 };
 
@@ -23,3 +27,4 @@ export const taskDone = async (req, res) => {
   }
   res.status(200).json(task);
 };
+
