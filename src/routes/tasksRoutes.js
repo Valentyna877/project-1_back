@@ -16,8 +16,8 @@ const router = Router();
 
 router.use(authenticate);
 
-router.get('/tasks', celebrate(getAllTasksSchema), getAllTasks);
-router.post('/tasks', celebrate(createTaskSchema), createTask);
-router.patch('/tasks/:taskId', celebrate(taskDoneSchema), taskDone);
+router.get('/', celebrate(getAllTasksSchema), getAllTasks);
+router.post('/', celebrate(createTaskSchema), createTask);
+router.patch('/:taskId', celebrate(taskDoneSchema), taskDone);
 
 export default router;
