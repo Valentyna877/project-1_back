@@ -11,11 +11,11 @@ export const getUser = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
-  const { name, email, gender, date } = req.body;
+  const { gender, date } = req.body;
 
   const user = await User.findOneAndUpdate(
     { _id: req.user._id },
-    { name, email, gender, date },
+    { gender, date },
     { returnDocument: "after" },
   );
 
