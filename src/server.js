@@ -1,10 +1,6 @@
-// import { connectMongoDB } from "./db/connectToMongoDB.js";
-
-//   await connectMongoDB();
 import express, { json } from "express";
 import "dotenv/config";
 import cors from "cors";
-// import router from './routes/index.js';
 import { ENV_VARS } from "./constants/envVars.js";
 import { errors } from "celebrate";
 import { connectToMongoDB } from "./db/connectToMongoDB.js";
@@ -15,8 +11,11 @@ import { notFoundHandler } from "./middlewares/notFoundHandler.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import router from "./routes/index.js";
 // import { UPLOAD_DIR } from './constants/path.js';
-// import { swaggerDocumentation } from './utils/swaggerDocs.js';
 import helmet from "helmet";
+import swaggerUi from "swagger-ui-express";
+import YAML from "yamljs";
+
+const swaggerDocument = YAML.load("./docs/openapi.yaml");
 
 export const startServer = () => {
   const app = express();
@@ -43,7 +42,7 @@ export const startServer = () => {
 
   app.use("/api/", router);
   // app.use('/uploads', express.static(UPLOAD_DIR));
-  // app.use('/api-docs', swaggerDocumentation());
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
   app.use(notFoundHandler);
   app.use(errors());
   app.use(errorHandler);
