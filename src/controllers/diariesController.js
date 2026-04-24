@@ -1,5 +1,5 @@
 import createHttpError from "http-errors";
-import { Diary } from "../models/Diary.js";
+import { Diary } from "../models/diary.js";
 
 export const getAllDiaries = async (req, res) => {
   const diaries = await Diary.find().sort({ createdAt: -1 });
