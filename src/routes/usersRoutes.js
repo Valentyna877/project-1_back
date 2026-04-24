@@ -11,6 +11,7 @@ import {
   updateUser,
   updateUserAvatar,
   updateUserGender,
+  verifyEmail,
 } from "../controllers/usersControllers.js";
 
 const router = Router();
@@ -20,5 +21,6 @@ router.get("/me", getUser);
 router.patch("/me/avatar", upload.single("avatar"), updateUserAvatar);
 router.patch("/me", celebrate(updateUserSchema), updateUser);
 router.patch("/me/gender", celebrate(updateUserGenderSchema), updateUserGender);
+router.get("/verify-email/:token", verifyEmail);
 
 export default router;

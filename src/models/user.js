@@ -30,6 +30,14 @@ const userSchema = new Schema(
       enum: ["boy", "girl", null],
       default: null,
     },
+    newEmail: {
+      type: String,
+      default: null,
+    },
+    emailVerificationToken: {
+      type: String,
+      default: null,
+    },
   },
   { timestamps: true, versionKey: false },
 );
