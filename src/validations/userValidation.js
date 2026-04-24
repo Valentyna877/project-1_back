@@ -7,3 +7,9 @@ export const updateUserSchema = {
     date: Joi.date().default(() => new Date(Date.now() + FORTY_WEEKS)),
   }),
 };
+
+export const updateUserThemeSchema = {
+  [Segments.BODY]: Joi.object({
+    theme: Joi.string().valid("light", "dark").required(),
+  }),
+};
