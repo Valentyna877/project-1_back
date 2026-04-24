@@ -1,0 +1,51 @@
+import { Joi, Segments } from "celebrate";
+
+const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+// GET
+export const getAllDiariesSchema = {
+  [Segments.QUERY]: Joi.object({}),
+};
+
+// CREATE
+export const createDiarySchema = {
+  [Segments.BODY]: Joi.object({
+    title: Joi.string().min(1).max(64).required(),
+
+    description: Joi.string().min(1).max(1000).required(),
+
+    date: Joi.string()
+      .pattern(dateRegex)
+      .default(() => new Date().toISOString().split("T")[0]),
+
+    emotions: Joi.array()
+      .items(Joi.string().hex().length(24))
+      .min(1)
+      .max(12)
+      .required(),
+  }),
+};
+
+// UPDATE
+export const updateDiarySchema = {
+  [Segments.PARAMS]: Joi.object({
+    diaryId: Joi.string().hex().length(24).required(),
+  }),
+
+  [Segments.BODY]: Joi.object({
+    title: Joi.string().min(1).max(64),
+
+    description: Joi.string().min(1).max(1000),
+
+    date: Joi.string().pattern(dateRegex),
+
+    emotions: Joi.array().items(Joi.string().hex().length(24)).min(1).max(12),
+  }).min(1),
+};
+
+// DELETE
+export const deleteDiarySchema = {
+  [Segments.PARAMS]: Joi.object({
+    diaryId: Joi.string().hex().length(24).required(),
+  }),
+};
