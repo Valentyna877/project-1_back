@@ -43,3 +43,23 @@ export const updateUserAvatar = async (req, res) => {
 
   res.status(200).json({ url: user.avatar });
 };
+
+export const updateUserGender = async (req, res) => {
+  const { gender } = req.body;
+  const userId = req.user._id;
+
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    { gender },
+    { new: true, runValidators: true },
+  );
+
+  if (!updatedUser) {
+    throw createHttpError(404, "User not found");
+  }
+
+  res.status(200).json({
+    message: "Theme updated based on gender",
+    updatedUser,
+  });
+};
