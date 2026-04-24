@@ -44,14 +44,14 @@ export const updateUserAvatar = async (req, res) => {
   res.status(200).json({ url: user.avatar });
 };
 
-export const updateUserTheme = async (req, res) => {
-  const { theme } = req.body;
+export const updateUserGender = async (req, res) => {
+  const { gender } = req.body;
   const userId = req.user._id;
 
   const updatedUser = await User.findByIdAndUpdate(
     userId,
-    { theme },
-    { new: true },
+    { gender },
+    { new: true, runValidators: true },
   );
 
   if (!updatedUser) {
@@ -59,7 +59,7 @@ export const updateUserTheme = async (req, res) => {
   }
 
   res.status(200).json({
-    message: "Theme updated",
+    message: "Theme updated based on gender",
     updatedUser,
   });
 };

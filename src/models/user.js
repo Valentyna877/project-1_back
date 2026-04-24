@@ -30,11 +30,6 @@ const userSchema = new Schema(
       enum: ["boy", "girl", null],
       default: null,
     },
-    theme: {
-      type: String,
-      enum: ["light", "dark"],
-      default: "light",
-    },
   },
   { timestamps: true, versionKey: false },
 );

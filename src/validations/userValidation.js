@@ -8,8 +8,8 @@ export const updateUserSchema = {
   }),
 };
 
-export const updateUserThemeSchema = {
+export const updateUserGenderSchema = {
   [Segments.BODY]: Joi.object({
-    theme: Joi.string().valid("light", "dark").required(),
+    gender: Joi.string().valid("boy", "girl").allow(null).required(),
   }),
 };
