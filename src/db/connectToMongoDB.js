@@ -1,25 +1,3 @@
-// import mongoose from "mongoose";
-// import { BabyState } from "../models/babyState.js";
-// import { MomState } from "../models/momState.js";
-// import { Emotion } from "../models/emotion.js";
-
-// export const connectMongoDB = async () => {
-//   try {
-//     const mongoUrl = process.env.MONGO_URL;
-//     await mongoose.connect(mongoUrl);
-//     console.log('✅ MongoDB connection established successfully');
-//       await BabyState.syncIndexes();
-//       await MomState.syncIndexes();
-//       await Emotion.syncIndexes();
-//     console.log("Indexes synced successfully");
-    
-//   } catch (error) {
-//     console.error('❌ Failed to connect to MongoDB', error.message);
-//     process.exit(1);
-//   }
-// };
-
-
 import mongoose from 'mongoose';
 import { getEnvVar } from '../utils/getEnvVar.js';
 import { ENV_VARS } from '../constants/envVars.js';
@@ -35,9 +13,7 @@ export const connectToMongoDB = async () => {
     const host = getEnvVar(ENV_VARS.DB_HOST);
     const dbName = getEnvVar(ENV_VARS.DB_NAME);
 
-      // const url = `mongodb+srv://${user}:${password}@${host}/${dbName}?appName=Cluster0`;
     const url = `mongodb+srv://${user}:${password}@${host}/${dbName}?retryWrites=true&w=majority&appName=Cluster0`;
-
 
     await mongoose.connect(url, clientOptions);
     console.log('✅ MongoDB connection established successfully');
