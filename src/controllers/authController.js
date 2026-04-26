@@ -3,6 +3,7 @@ import { User } from "../models/user.js";
 import bcrypt from "bcrypt";
 import { createSession, setSessionCookies } from "../services/auth.js";
 import { Session } from "../models/session.js";
+import mongoose from "mongoose";
 
 export const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
@@ -42,7 +43,7 @@ export const loginUser = async (req, res) => {
 export const logoutUser = async (req, res) => {
   const { sessionId } = req.cookies;
 
-  if (sessionId) {
+  if (sessionId && mongoose.isValidObjectId(sessionId)) {
     await Session.deleteOne({ _id: sessionId });
   }
 
@@ -62,8 +63,6 @@ export const refreshUser = async (req, res) => {
 
   const isSessionExpired =
     new Date() > new Date(session.refreshTokenValidUntil);
-
-  console.log(isSessionExpired);
 
   if (isSessionExpired) throw createHttpError(401, "Session token expired");
 
