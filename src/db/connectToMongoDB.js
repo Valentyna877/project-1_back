@@ -3,7 +3,7 @@ import { getEnvVar } from '../utils/getEnvVar.js';
 import { ENV_VARS } from '../constants/envVars.js';
 
 const clientOptions = {
-  serverApi: { version: '1', strict: false, deprecationErrors: true },
+  serverApi: { version: "1", strict: false, deprecationErrors: true },
 };
 
 export const connectToMongoDB = async () => {
@@ -16,12 +16,12 @@ export const connectToMongoDB = async () => {
     const url = `mongodb+srv://${user}:${password}@${host}/${dbName}?retryWrites=true&w=majority&appName=Cluster0`;
 
     await mongoose.connect(url, clientOptions);
-    console.log('✅ MongoDB connection established successfully');
+    console.log("✅ MongoDB connection established successfully");
 
     await mongoose.connection.db.admin().command({ ping: 1 });
-    console.log('✅ Deployment pinged successfully');
+    console.log("✅ Deployment pinged successfully");
   } catch (err) {
-    console.error('❌ Failed to connect to MongoDB:', err.message);
+    console.error("❌ Failed to connect to MongoDB:", err.message);
     process.exit(1);
   }
 };

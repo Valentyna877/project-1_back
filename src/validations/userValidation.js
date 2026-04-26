@@ -7,3 +7,9 @@ export const updateUserSchema = {
     date: Joi.date().default(() => new Date(Date.now() + FORTY_WEEKS)),
   }),
 };
+
+export const updateUserGenderSchema = {
+  [Segments.BODY]: Joi.object({
+    gender: Joi.string().valid("boy", "girl").allow(null).required(),
+  }),
+};
