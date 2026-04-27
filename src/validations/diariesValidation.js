@@ -7,6 +7,12 @@ export const getAllDiariesSchema = {
   [Segments.QUERY]: Joi.object({}),
 };
 
+export const getDiaryByIdSchema = {
+  [Segments.PARAMS]: Joi.object({
+    diaryId: Joi.string().hex().length(24).required(),
+  }),
+};
+
 // CREATE
 export const createDiarySchema = {
   [Segments.BODY]: Joi.object({
