@@ -1,5 +1,5 @@
-import { Task } from '../models/task.js';
-import createHttpError from 'http-errors';
+import { Task } from "../models/task.js";
+import createHttpError from "http-errors";
 
 export const createTask = async (req, res) => {
   const task = await Task.create({ ...req.body, userId: req.user._id });
@@ -8,7 +8,7 @@ export const createTask = async (req, res) => {
 
 export const getAllTasks = async (req, res) => {
   const result = await Task.find({ userId: req.user._id });
-  res.status(200).json(result);
+  res.status(200).json({ result });
 };
 
 export const taskDone = async (req, res) => {
@@ -18,12 +18,12 @@ export const taskDone = async (req, res) => {
     { _id: taskId, userId: req.user._id },
     req.body,
     {
-      returnDocument: 'after',
+      returnDocument: "after",
       runValidators: true,
     },
   );
   if (!task) {
-    throw createHttpError(404, 'Task not found');
+    throw createHttpError(404, "Task not found");
   }
   res.status(200).json(task);
 };
