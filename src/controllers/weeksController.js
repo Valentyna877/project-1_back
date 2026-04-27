@@ -7,14 +7,17 @@ export const getPregnancyInfo = async (req, res) => {
 
   const dueDay = date - Date.now();
 
-  const days = Math.floor(dueDay / 1000 / 60 / 60 / 24);
-  const weeks = Math.floor(days / 7);
+  const days = Math.floor(dueDay / ONE_DAY);
+  const weeks = Math.floor(dueDay / ONE_WEEK);
 
-  const { babyActivity, momDailyTips } = await BabyState.findOne({
-    weekNumber: weeks,
-  });
+  const { babyActivity, momDailyTips, babySize, babyWeight } =
+    await BabyState.findOne({
+      weekNumber: weeks,
+    });
 
-  res.status(200).json({ days, weeks, babyActivity, momDailyTips });
+  res
+    .status(200)
+    .json({ days, weeks, babyActivity, momDailyTips, babySize, babyWeight });
 };
 
 export const getPregnancyInfoPublic = async (req, res) => {
@@ -28,11 +31,14 @@ export const getPregnancyInfoPublic = async (req, res) => {
   const days = Math.floor(dayToDelivery / ONE_DAY);
   const weeks = Math.floor(dayToDelivery / ONE_WEEK);
 
-  const { babyActivity, momDailyTips } = await BabyState.findOne({
-    weekNumber: weeks,
-  });
+  const { babyActivity, momDailyTips, babySize, babyWeight } =
+    await BabyState.findOne({
+      weekNumber: weeks,
+    });
 
-  res.status(200).json({ days, weeks, babyActivity, momDailyTips });
+  res
+    .status(200)
+    .json({ days, weeks, babyActivity, momDailyTips, babySize, babyWeight });
 };
 
 export const getBabyState = async (req, res) => {
