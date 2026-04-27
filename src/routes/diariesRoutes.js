@@ -6,6 +6,7 @@ import {
   createDiarySchema,
   updateDiarySchema,
   deleteDiarySchema,
+  getDiaryByIdSchema,
 } from "../validations/diariesValidation.js";
 
 import {
@@ -13,11 +14,13 @@ import {
   createDiary,
   updateDiary,
   deleteDiary,
+  getDiaryById,
 } from "../controllers/diariesController.js";
 
 const router = Router();
 
 router.get("/", celebrate(getAllDiariesSchema), getAllDiaries);
+router.get("/:diaryId", celebrate(getDiaryByIdSchema), getDiaryById);
 router.post("/", celebrate(createDiarySchema), createDiary);
 router.patch("/:diaryId", celebrate(updateDiarySchema), updateDiary);
 router.delete("/:diaryId", celebrate(deleteDiarySchema), deleteDiary);
