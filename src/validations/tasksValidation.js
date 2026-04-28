@@ -1,4 +1,4 @@
-import { Joi, Segments } from 'celebrate';
+import { Joi, Segments } from "celebrate";
 
 export const createTaskSchema = {
   [Segments.BODY]: Joi.object({
@@ -20,5 +20,6 @@ export const getAllTasksSchema = {
 export const taskDoneSchema = {
   [Segments.BODY]: Joi.object({
     isDone: Joi.boolean().required(),
+    taskId: Joi.string().required(),
   }),
 };
