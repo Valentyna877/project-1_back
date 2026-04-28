@@ -11,9 +11,11 @@ import {
   updateUser,
   updateUserAvatar,
   updateUserGender,
+  verifyEmail,
 } from "../controllers/usersControllers.js";
 
 const router = Router();
+router.get("/verify-email/:token", verifyEmail);
 router.use(authenticate);
 
 router.get("/me", getUser);
