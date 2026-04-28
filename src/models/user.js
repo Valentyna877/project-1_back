@@ -19,7 +19,7 @@ const userSchema = new Schema(
     },
     avatar: {
       type: String,
-      default: "http://google.com",
+      default: "https://res.cloudinary.com/dxfmtmmae/image/upload/v1777320467/leleka-app/avatars/avatar_69efb1926e4dff7d196cc57f.png",
     },
     date: {
       type: Date,
