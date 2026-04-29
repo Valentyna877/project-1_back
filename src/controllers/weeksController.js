@@ -46,10 +46,8 @@ export const getPregnancyInfoPublic = async (req, res) => {
 };
 
 export const getBabyState = async (req, res) => {
-  const { date } = req.user;
-  const today = new Date();
-  const dueDate = new Date(date);
-  const week = 40 - Math.ceil((dueDate - today) / ONE_WEEK);
+  const { week } = req.params;
+
   const baby = await BabyState.findOne({ weekNumber: week });
   if (!baby) {
     return res.status(404).json({ message: `No data for week ${week}` });
@@ -58,10 +56,8 @@ export const getBabyState = async (req, res) => {
 };
 
 export const getMomState = async (req, res) => {
-  const { date } = req.user;
-  const today = new Date();
-  const dueDate = new Date(date);
-  const week = 40 - Math.ceil((dueDate - today) / ONE_WEEK);
+  const { week } = req.params;
+
   const mom = await MomState.findOne({ weekNumber: week });
   if (!mom) {
     return res.status(404).json({ message: `No data for week ${week}` });
