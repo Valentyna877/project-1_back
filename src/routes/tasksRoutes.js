@@ -17,7 +17,7 @@ const router = Router();
 router.use(authenticate);
 
 router.get("/", celebrate(getAllTasksSchema), getAllTasks);
-router.patch("/status", celebrate(taskDoneSchema), taskDone);
+router.patch("/:taskId/status", celebrate(taskDoneSchema), taskDone);
 router.post("/", celebrate(createTaskSchema), createTask);
 
 export default router;
