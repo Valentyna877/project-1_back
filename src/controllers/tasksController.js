@@ -12,7 +12,8 @@ export const getAllTasks = async (req, res) => {
 };
 
 export const taskDone = async (req, res) => {
-  const { taskId, isDone } = req.body;
+  const { taskId } = req.params;
+  const { isDone } = req.body;
 
   const task = await Task.findOneAndUpdate(
     { _id: taskId, userId: req.user._id },
