@@ -4,8 +4,6 @@ import {
   getAllDiariesSchema,
   createDiarySchema,
   updateDiarySchema,
-  // deleteDiarySchema,
-  // getDiaryByIdSchema,
 } from "../validations/diariesValidation.js";
 import {
   getAllDiaries,
@@ -14,14 +12,21 @@ import {
   deleteDiary,
   getDiaryById,
 } from "../controllers/diariesController.js";
-import { idSchema } from "../validations/idValidation.js";
+import { diaryIdSchema } from "../validations/idValidation.js";
+import { authenticate } from "../middlewares/authenticate.js";
 
 const router = Router();
 
+router.use(authenticate);
+
 router.get("/", celebrate(getAllDiariesSchema), getAllDiaries);
-router.get("/:diaryId", celebrate(idSchema), getDiaryById);
+router.get("/:diaryId", celebrate(diaryIdSchema), getDiaryById);
 router.post("/", celebrate(createDiarySchema), createDiary);
-router.patch("/:diaryId", celebrate(updateDiarySchema, idSchema), updateDiary);
-router.delete("/:diaryId", celebrate(idSchema), deleteDiary);
+router.patch(
+  "/:diaryId",
+  celebrate(updateDiarySchema, diaryIdSchema),
+  updateDiary,
+);
+router.delete("/:diaryId", celebrate(diaryIdSchema), deleteDiary);
 
 export default router;
