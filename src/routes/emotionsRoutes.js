@@ -4,11 +4,11 @@ import {
   getEmotionById,
 } from "../controllers/emotionsController.js";
 import { celebrate } from "celebrate";
-import { idSchema } from "../validations/idValidation.js";
+import { emotionIdSchema } from "../validations/idValidation.js";
 
 const router = Router();
 
 router.get("/", getAllEmotions);
-router.get("/:emotionId", celebrate(idSchema), getEmotionById);
+router.get("/:emotionId", celebrate(emotionIdSchema), getEmotionById);
 
 export default router;

@@ -7,8 +7,8 @@ export const createTask = async (req, res) => {
 };
 
 export const getAllTasks = async (req, res) => {
-  const result = await Task.find({ userId: req.user._id });
-  res.status(200).json(result);
+  const tasks = await Task.find({ userId: req.user._id });
+  res.status(200).json(tasks);
 };
 
 export const taskDone = async (req, res) => {

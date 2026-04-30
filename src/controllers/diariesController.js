@@ -2,17 +2,24 @@ import createHttpError from "http-errors";
 import { Diary } from "../models/diary.js";
 
 export const getAllDiaries = async (req, res) => {
-  const diaries = await Diary.find().sort({ createdAt: -1 });
-  res.json(diaries);
+  const diaries = await Diary.find({ userId: req.user._id }).sort({
+    createdAt: -1,
+  });
+
+  if (!diaries) {
+    throw createHttpError(404, "Diaries not found");
+  }
+
+  res.status(200).json(diaries);
 };
 
 export const createDiary = async (req, res) => {
-  const diary = await Diary.create(req.body);
+  const diary = await Diary.create({ ...req.body, userId: req.user._id });
+
   res.status(201).json(diary);
 };
 
 export const getDiaryById = async (req, res) => {
-  console.log(req.params.diaryId);
   const { diaryId } = req.params;
 
   const diary = await Diary.findById(diaryId);
@@ -21,7 +28,7 @@ export const getDiaryById = async (req, res) => {
     throw createHttpError(404, "Diary not found");
   }
 
-  res.json(diary);
+  res.status(200).json(diary);
 };
 
 export const updateDiary = async (req, res) => {
@@ -33,7 +40,7 @@ export const updateDiary = async (req, res) => {
     throw createHttpError(404, "Diary not found");
   }
 
-  res.json(diary);
+  res.status(200).json(diary);
 };
 
 export const deleteDiary = async (req, res) => {
@@ -45,5 +52,5 @@ export const deleteDiary = async (req, res) => {
     throw createHttpError(404, "Diary not found");
   }
 
-  res.json({ message: "Diary deleted" });
+  res.status(200).json(diary);
 };

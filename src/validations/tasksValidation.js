@@ -17,7 +17,7 @@ export const getAllTasksSchema = {
   }),
 };
 
-export const taskDoneSchema = {
+export const taskStatusSchema = {
   [Segments.BODY]: Joi.object({
     isDone: Joi.boolean().required(),
   }),

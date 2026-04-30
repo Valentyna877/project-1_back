@@ -3,7 +3,7 @@ import { celebrate } from "celebrate";
 import {
   getAllTasksSchema,
   createTaskSchema,
-  taskDoneSchema,
+  taskStatusSchema,
 } from "../validations/tasksValidation.js";
 import {
   getAllTasks,
@@ -11,14 +11,18 @@ import {
   taskDone,
 } from "../controllers/tasksController.js";
 import { authenticate } from "../middlewares/authenticate.js";
-import { idSchema } from "../validations/idValidation.js";
+import { taskIdSchema } from "../validations/idValidation.js";
 
 const router = Router();
 
 router.use(authenticate);
 
 router.get("/", celebrate(getAllTasksSchema), getAllTasks);
-router.patch("/:taskId/status", celebrate(taskDoneSchema, idSchema), taskDone);
+router.patch(
+  "/:taskId/status",
+  celebrate(taskStatusSchema, taskIdSchema),
+  taskDone,
+);
 router.post("/", celebrate(createTaskSchema), createTask);
 
 export default router;
