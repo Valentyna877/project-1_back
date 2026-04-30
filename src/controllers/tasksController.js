@@ -7,7 +7,9 @@ export const createTask = async (req, res) => {
 };
 
 export const getAllTasks = async (req, res) => {
-  const tasks = await Task.find({ userId: req.user._id });
+  const tasks = await Task.find({ userId: req.user._id }).sort({
+    date: 1,
+  });
   res.status(200).json(tasks);
 };
 
