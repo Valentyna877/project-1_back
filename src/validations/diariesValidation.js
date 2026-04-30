@@ -7,11 +7,11 @@ export const getAllDiariesSchema = {
   [Segments.QUERY]: Joi.object({}),
 };
 
-export const getDiaryByIdSchema = {
-  [Segments.PARAMS]: Joi.object({
-    diaryId: Joi.string().hex().length(24).required(),
-  }),
-};
+// export const getDiaryByIdSchema = {
+//   [Segments.PARAMS]: Joi.object({
+//     diaryId: Joi.string().hex().length(24).required(),
+//   }),
+// };
 
 // CREATE
 export const createDiarySchema = {
@@ -34,9 +34,9 @@ export const createDiarySchema = {
 
 // UPDATE
 export const updateDiarySchema = {
-  [Segments.PARAMS]: Joi.object({
-    diaryId: Joi.string().hex().length(24).required(),
-  }),
+  // [Segments.PARAMS]: Joi.object({
+  //   diaryId: Joi.string().hex().length(24).required(),
+  // }),
 
   [Segments.BODY]: Joi.object({
     title: Joi.string().min(1).max(64),
@@ -50,8 +50,8 @@ export const updateDiarySchema = {
 };
 
 // DELETE
-export const deleteDiarySchema = {
-  [Segments.PARAMS]: Joi.object({
-    diaryId: Joi.string().hex().length(24).required(),
-  }),
-};
+// export const deleteDiarySchema = {
+//   [Segments.PARAMS]: Joi.object({
+//     diaryId: Joi.string().hex().length(24).required(),
+//   }),
+// };
