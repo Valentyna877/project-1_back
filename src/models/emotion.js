@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model } from "mongoose";
 
 const EmotionSchema = new Schema(
   {
@@ -11,7 +11,7 @@ const EmotionSchema = new Schema(
 
     description: {
       type: String,
-      default: '',
+      default: "",
       trim: true,
     },
 
@@ -22,7 +22,7 @@ const EmotionSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
-export const Emotion = model('Emotion', EmotionSchema, 'emotions');
+export const Emotion = model("Emotion", EmotionSchema, "emotions");

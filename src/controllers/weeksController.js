@@ -1,19 +1,21 @@
-import { FORTY_WEEKS, ONE_DAY } from "../constants/times.js";
+import createHttpError from "http-errors";
 import { BabyState } from "../models/babyState.js";
 import { MomState } from "../models/momState.js";
+import { calculatedDays, calculatedWeeks } from "../utils/calculateDates.js";
 
 export const getPregnancyInfo = async (req, res) => {
   const { date } = req.user;
 
-  const dueDay = date - Date.now();
-
-  const days = Math.floor(dueDay / ONE_DAY);
-  const startDueDays = (Date.now() - (date - FORTY_WEEKS)) / ONE_DAY;
-  const weeks = Math.floor(startDueDays / 7) + 1;
+  const weeks = calculatedWeeks(date);
+  const days = calculatedDays(date);
 
   const baby = await BabyState.findOne({
     weekNumber: weeks,
   });
+
+  if (!baby) {
+    throw createHttpError(400, "Not valid week number");
+  }
 
   res.status(200).json({
     days,
@@ -23,20 +25,17 @@ export const getPregnancyInfo = async (req, res) => {
 };
 
 export const getPregnancyInfoPublic = async (req, res) => {
-  const dueDay = new Date();
-  dueDay.setDate(dueDay.getDate() + 40 * 7);
+  const date = new Date();
+  date.setDate(date.getDate() + 40 * 7);
 
-  const today = new Date();
+  const weeks = calculatedWeeks(date) + 1;
+  const days = calculatedDays(date) - 1;
 
-  const dayToDelivery = dueDay - today;
+  const baby = await BabyState.findOne({ weekNumber: weeks });
 
-  const days = Math.ceil(dayToDelivery / ONE_DAY);
-  const startDueDays = (today - (dueDay - FORTY_WEEKS)) / ONE_DAY;
-  const weeks = Math.ceil(startDueDays / 7) + 1;
-
-  const baby = await BabyState.findOne({
-    weekNumber: weeks,
-  });
+  if (!baby) {
+    throw createHttpError(400, "Not valid week number");
+  }
 
   res.status(200).json({
     days,
