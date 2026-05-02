@@ -16,11 +16,7 @@ export const createDiarySchema = {
       .regex(/^\d{4}-\d{2}-\d{2}$/)
       .default(() => new Date().toISOString().split("T")[0]),
 
-    emotions: Joi.array()
-      .items(Joi.string().hex().length(24))
-      .min(1)
-      .max(12)
-      .required(),
+    emotions: Joi.array().items(Joi.string().required()),
   }),
 };
 

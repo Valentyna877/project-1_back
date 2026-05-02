@@ -21,7 +21,7 @@ router.use(authenticate);
 
 router.get("/", celebrate(getAllDiariesSchema), getAllDiaries);
 router.get("/:diaryId", celebrate(diaryIdSchema), getDiaryById);
-router.post("/", celebrate(createDiarySchema), createDiary);
+router.post("/", celebrate(createDiarySchema, diaryIdSchema), createDiary);
 router.patch(
   "/:diaryId",
   celebrate(updateDiarySchema, diaryIdSchema),
