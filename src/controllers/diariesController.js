@@ -2,9 +2,9 @@ import createHttpError from "http-errors";
 import { Diary } from "../models/diary.js";
 
 export const getAllDiaries = async (req, res) => {
-  const diaries = await Diary.find({ userId: req.user._id }).sort({
-    createdAt: -1,
-  });
+  const diaries = await Diary.find({ userId: req.user._id })
+    .populate("emotions")
+    .sort({ createdAt: -1 });
 
   if (!diaries) {
     throw createHttpError(404, "Diaries not found");
@@ -15,6 +15,7 @@ export const getAllDiaries = async (req, res) => {
 
 export const createDiary = async (req, res) => {
   const diary = await Diary.create({ ...req.body, userId: req.user._id });
+  await diary.populate("emotions");
 
   res.status(201).json(diary);
 };
@@ -22,7 +23,7 @@ export const createDiary = async (req, res) => {
 export const getDiaryById = async (req, res) => {
   const { diaryId } = req.params;
 
-  const diary = await Diary.findById(diaryId);
+  const diary = await Diary.findById(diaryId).populate("emotions");
 
   if (!diary) {
     throw createHttpError(404, "Diary not found");
@@ -34,7 +35,9 @@ export const getDiaryById = async (req, res) => {
 export const updateDiary = async (req, res) => {
   const { diaryId } = req.params;
 
-  const diary = await Diary.findByIdAndUpdate(diaryId, req.body, { new: true });
+  const diary = await Diary.findByIdAndUpdate(diaryId, req.body, {
+    new: true,
+  }).populate("emotions");
 
   if (!diary) {
     throw createHttpError(404, "Diary not found");
