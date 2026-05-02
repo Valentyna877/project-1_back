@@ -23,38 +23,22 @@ Provides secure and scalable endpoints for:
 
 ## 🚀 Features
 
-### 🔐 Authentication
+## 🚀 Features
 
-- Register
-- Login
-- Logout
-- Token refresh
+### 🔐 Authentication
+Register · Login · Logout · Token refresh
 
 ### 👤 User
-
-- Get current user
-- Update profile
-- Upload avatar
+Get current user · Update profile · Upload avatar
 
 ### ✅ Tasks
-
-- Create tasks
-- Get tasks
-- Update status
+Create · Get · Update status
 
 ### 📔 Diary
-
-- Create entry
-- Get entries
-- Update entry
-- Delete entry
+Create · Get · Update · Delete
 
 ### 📅 Pregnancy Data
-
-- Current week info
-- Baby development
-- Mother's condition
-- Daily tips
+Week info · Baby development · Mother's condition · Daily tips
 
 ---
 
@@ -89,7 +73,7 @@ npm run dev
 Server runs on:
 
 ```
-http://localhost:8000
+http://localhost:5000
 ```
 
 ---
