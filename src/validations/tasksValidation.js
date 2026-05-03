@@ -22,3 +22,11 @@ export const taskStatusSchema = {
     isDone: Joi.boolean().required(),
   }),
 };
+
+export const taskUpdateSchema = {
+  [Segments.BODY]: Joi.object({
+    name: Joi.string().min(1).max(96),
+    date: Joi.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    isDone: Joi.boolean(),
+  }).min(1),
+};

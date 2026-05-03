@@ -32,3 +32,37 @@ export const taskDone = async (req, res) => {
   }
   res.status(200).json(task);
 };
+
+export const deleteTask = async (req, res) => {
+  const { taskId } = req.params;
+
+  const task = await Task.findOneAndDelete({
+    _id: taskId,
+    userId: req.user._id,
+  });
+
+  if (!task) {
+    throw createHttpError(200, "Task not found");
+  }
+
+  res.status(200).json(task);
+};
+
+export const updateTask = async (req, res) => {
+  const { taskId } = req.params;
+
+  const task = await Task.findOneAndUpdate(
+    {
+      _id: taskId,
+      userId: req.user._id,
+    },
+    req.body,
+    { new: true },
+    {
+      returnDocument: "after",
+      runValidators: true,
+    },
+  );
+
+  res.status(200).json(task);
+};

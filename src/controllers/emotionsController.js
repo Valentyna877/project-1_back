@@ -2,7 +2,9 @@ import createHttpError from "http-errors";
 import { Emotion } from "../models/emotion.js";
 
 export const getAllEmotions = async (req, res) => {
-  const emotions = await Emotion.find();
+  const emotions = await Emotion.find()
+    .collation({ locale: "uk" })
+    .sort({ title: 1 });
   if (!emotions) {
     throw createHttpError(500, "Something is wrong");
   }
