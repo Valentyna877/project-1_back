@@ -5,10 +5,11 @@ import usersRoutes from "./usersRoutes.js";
 import weeksRoutes from "./weeksRoutes.js";
 import diariesRoutes from "./diariesRoutes.js";
 import emotionsRouter from "./emotionsRoutes.js";
+import googleRoutes from "./authGoogle.js";
 
 const router = Router();
 
-router.use("/auth", authRouter);
+router.use("/auth", authRouter, googleRoutes);
 router.use("/tasks", tasksRoutes);
 router.use("/users", usersRoutes);
 router.use("/weeks", weeksRoutes);
