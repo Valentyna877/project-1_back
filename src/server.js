@@ -24,7 +24,7 @@ export const startServer = () => {
     logger,
     cors({
       origin: [
-        "https://vercel.app",
+        "https://project-1-front-nu.vercel.app",
         "http://localhost:3000",
         "http://localhost:3001",
       ],
