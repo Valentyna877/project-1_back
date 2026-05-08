@@ -9,11 +9,11 @@ import googleRoutes from "./authGoogle.js";
 
 const router = Router();
 
-router.use("/auth", authRouter, googleRoutes);
-router.use("/tasks", tasksRoutes);
-router.use("/users", usersRoutes);
-router.use("/weeks", weeksRoutes);
-router.use("/diaries", diariesRoutes);
-router.use("/emotions", emotionsRouter);
+router.use("/api/auth", authRouter, googleRoutes);
+router.use("/api/tasks", tasksRoutes);
+router.use("/api/users", usersRoutes);
+router.use("/api/weeks", weeksRoutes);
+router.use("/api/diaries", diariesRoutes);
+router.use("/api/emotions", emotionsRouter);
 
 export default router;
