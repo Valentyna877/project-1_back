@@ -3,6 +3,7 @@ import {
   loginSchema,
   registerSchema,
   requestResetEmailSchema,
+  tokenSchema,
 } from "../validations/authValidation.js";
 import { Router } from "express";
 import {
@@ -25,5 +26,6 @@ router.post(
   celebrate(requestResetEmailSchema),
   requestResetEmail,
 );
+router.post("/check-token", celebrate(tokenSchema));
 
 export default router;

@@ -135,3 +135,13 @@ export const requestResetEmail = async (req, res) => {
 
   res.status(200).json({ message: "Password reset email sent successfully" });
 };
+
+export const checkToken = (req, res) => {
+  const { token } = req.body;
+
+  try {
+    jwt.verify(token, process.env.JWT_SECRET);
+  } catch {
+    throw createHttpError(401, "Invalid or expired token");
+  }
+};

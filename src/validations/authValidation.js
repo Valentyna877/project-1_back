@@ -20,3 +20,9 @@ export const requestResetEmailSchema = {
     email: Joi.string().email().required(),
   }),
 };
+
+export const tokenSchema = {
+  [Segments.PARAMS]: Joi.object({
+    toke: Joi.string().required(),
+  }),
+};
