@@ -13,8 +13,5 @@ router.get("/public", getPregnancyInfoPublic);
 router.get("/", authenticate, getPregnancyInfo);
 router.get("/baby/:week", authenticate, getBabyState);
 router.get("/mom/:week", authenticate, getMomState);
-router.get("/demo", (req, res) => {
-  res.json({ message: "Demo works!" });
-});
 
 export default router;
