@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import { createSession, setSessionCookies } from "../services/auth.js";
 import { saveFileToCloudinary } from "../utils/saveFileToCloudinary.js";
+import { Session } from "../models/session.js";
 
 export const loginGoogle = async (req, res) => {
   const { access_token } = req.body;
@@ -26,9 +27,9 @@ export const loginGoogle = async (req, res) => {
 
   const googleUser = await googleResponse.json();
 
-  console.log(googleUser);
-
   let user = await User.findOne({ email: googleUser.email });
+
+  let isNewUser = false;
 
   if (!user) {
     const { name, email } = googleUser;
@@ -42,11 +43,25 @@ export const loginGoogle = async (req, res) => {
     const imgBuffer = Buffer.from(imgArrayBuffer);
     const cloudinaryData = await saveFileToCloudinary(imgBuffer, user._id);
     const avatar = cloudinaryData.secure_url;
-    await User.updateOne({ _id: user._id }, { avatar });
+    user = await User.findOneAndUpdate(
+      { _id: user._id },
+      { avatar },
+      { returnDocument: "after" },
+    );
+
+    isNewUser = true;
   }
+
+  await Session.deleteMany({
+    userId: user._id,
+    refreshTokenValidUntil: { $lt: new Date() },
+  });
 
   const newSession = await createSession(user._id);
   await setSessionCookies(res, newSession);
 
-  res.status(201).json(user);
+  res.status(201).json({
+    ...user,
+    isNewUser,
+  });
 };
