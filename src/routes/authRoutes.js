@@ -1,11 +1,16 @@
 import { celebrate } from "celebrate";
-import { loginSchema, registerSchema } from "../validations/authValidation.js";
+import {
+  loginSchema,
+  registerSchema,
+  requestResetEmailSchema,
+} from "../validations/authValidation.js";
 import { Router } from "express";
 import {
   loginUser,
   logoutUser,
   refreshUser,
   registerUser,
+  requestResetEmail,
 } from "../controllers/authController.js";
 import { authenticate } from "../middlewares/authenticate.js";
 
@@ -15,5 +20,10 @@ router.post("/register", celebrate(registerSchema), registerUser);
 router.post("/login", celebrate(loginSchema), loginUser);
 router.post("/logout", authenticate, logoutUser);
 router.post("/refresh", refreshUser);
+router.post(
+  "/request-reset-email",
+  celebrate(requestResetEmailSchema),
+  requestResetEmail,
+);
 
 export default router;

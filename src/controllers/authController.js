@@ -1,9 +1,15 @@
 import createHttpError from "http-errors";
 import { User } from "../models/user.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import path from "node:path";
+import fs from "node:fs/promises";
+import handlebars from "handlebars";
 import { createSession, setSessionCookies } from "../services/auth.js";
 import { Session } from "../models/session.js";
 import mongoose from "mongoose";
+import { sendEmail } from "../utils/sendEmail.js";
+import { GENDERS_COLORS } from "../constants/genders.js";
 
 export const registerUser = async (req, res) => {
   const { name, email, password } = req.body;
@@ -78,4 +84,54 @@ export const refreshUser = async (req, res) => {
   setSessionCookies(res, newSession);
 
   res.status(200).json({ message: "Session refreshed" });
+};
+
+export const requestResetEmail = async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res
+      .status(200)
+      .json({ message: "Password reset email sent successfully" });
+  }
+
+  const resetToken = jwt.sign(
+    { sub: user._id, email },
+    process.env.JWT_SECRET,
+    { expiresIn: "15m" },
+  );
+
+  const templatePath = path.resolve("templates/request-reset-email.html");
+  const templateSource = await fs.readFile(templatePath, "utf-8");
+  const template = handlebars.compile(templateSource);
+
+  const color =
+    user.gender === "boy"
+      ? GENDERS_COLORS.BOY
+      : user.gender === "girl"
+        ? GENDERS_COLORS.GIRL
+        : GENDERS_COLORS.UNKNOWN;
+
+  const html = template({
+    name: user.name,
+    color,
+    link: `${process.env.FRONTEND_DOMAIN}/profile/reset-data?token=${resetToken}`,
+  });
+
+  try {
+    await sendEmail({
+      from: process.env.SMTP_FROM,
+      to: email,
+      subject: "Reset your password",
+      html,
+    });
+  } catch {
+    throw createHttpError(
+      500,
+      "Failed to send the email, please try again later.",
+    );
+  }
+
+  res.status(200).json({ message: "Password reset email sent successfully" });
 };
