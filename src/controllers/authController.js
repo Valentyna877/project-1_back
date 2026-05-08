@@ -116,14 +116,14 @@ export const requestResetEmail = async (req, res) => {
   const html = template({
     name: user.name,
     color,
-    link: `${process.env.FRONTEND_DOMAIN}/profile/reset-data?token=${resetToken}`,
+    link: `${process.env.FRONTEND_DOMAIN}/auth/reset-data/?token=${resetToken}`,
   });
 
   try {
     await sendEmail({
       from: process.env.SMTP_FROM,
       to: email,
-      subject: "Reset your password",
+      subject: "Зміна даних для входу",
       html,
     });
   } catch {
@@ -136,12 +136,74 @@ export const requestResetEmail = async (req, res) => {
   res.status(200).json({ message: "Password reset email sent successfully" });
 };
 
-export const checkToken = (req, res) => {
+export const checkToken = async (req, res) => {
   const { token } = req.body;
 
+  let payload;
+
   try {
-    jwt.verify(token, process.env.JWT_SECRET);
+    payload = jwt.verify(token, process.env.JWT_SECRET);
   } catch {
     throw createHttpError(401, "Invalid or expired token");
   }
+
+  const { sub, email } = payload;
+
+  const user = await User.findOne({ _id: sub, email });
+
+  if (!user) {
+    throw createHttpError(404, "User not found");
+  }
+
+  res.status(200).json(user);
+};
+
+export const changeCreds = async (req, res) => {
+  const { token, email, password } = req.body;
+
+  let payload;
+
+  try {
+    payload = jwt.verify(token, process.env.JWT_SECRET);
+  } catch {
+    throw createHttpError(401, "Invalid or expired token");
+  }
+
+  const { sub, email: tokenEmail } = payload;
+
+  let user = await User.findOne({ _id: sub, email: tokenEmail });
+
+  if (!user) {
+    throw createHttpError(404, "User not found");
+  }
+
+  const existingUser = await User.findOne({ email });
+
+  if (existingUser) {
+    throw createHttpError(400, "Email in use");
+  }
+
+  if (email) {
+    user = await User.findOneAndUpdate(
+      { _id: sub, email: tokenEmail },
+      { email },
+      {
+        returnDocument: "after",
+      },
+    );
+  }
+
+  if (password) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    user = await User.findOneAndUpdate(
+      { _id: sub, email: tokenEmail },
+      { password: hashedPassword },
+      {
+        returnDocument: "after",
+      },
+    );
+  }
+
+  res.status(200).json(user);
 };

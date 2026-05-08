@@ -22,7 +22,15 @@ export const requestResetEmailSchema = {
 };
 
 export const tokenSchema = {
-  [Segments.PARAMS]: Joi.object({
-    toke: Joi.string().required(),
+  [Segments.BODY]: Joi.object({
+    token: Joi.string().required(),
   }),
+};
+
+export const changeCredsSchame = {
+  [Segments.BODY]: Joi.object({
+    token: Joi.string().required(),
+    password: Joi.string().min(8).max(128),
+    email: Joi.string().email().max(64),
+  }).min(2),
 };

@@ -1,5 +1,6 @@
 import { celebrate } from "celebrate";
 import {
+  changeCredsSchame,
   loginSchema,
   registerSchema,
   requestResetEmailSchema,
@@ -7,6 +8,8 @@ import {
 } from "../validations/authValidation.js";
 import { Router } from "express";
 import {
+  changeCreds,
+  checkToken,
   loginUser,
   logoutUser,
   refreshUser,
@@ -26,6 +29,7 @@ router.post(
   celebrate(requestResetEmailSchema),
   requestResetEmail,
 );
-router.post("/check-token", celebrate(tokenSchema));
+router.post("/check-token", celebrate(tokenSchema), checkToken);
+router.post("/change-creds", celebrate(changeCredsSchame), changeCreds);
 
 export default router;
