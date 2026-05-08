@@ -29,7 +29,7 @@ export const getPregnancyInfoPublic = async (req, res) => {
   date.setDate(date.getDate() + 40 * 7);
 
   const weeks = calculatedWeeks(date) + 0;
-  const days = calculatedDays(date) - 1;
+  const days = calculatedDays(date) - 0;
 
   const baby = await BabyState.findOne({ weekNumber: weeks });
 
