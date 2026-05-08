@@ -24,7 +24,7 @@ export const startServer = () => {
     logger,
     cors({
       origin: [
-        "process.env.FRONTEND_DOMAIN",
+         getEnvVar("FRONTEND_DOMAIN"),
         "http://localhost:3000",
         "http://localhost:3001",
       ],
